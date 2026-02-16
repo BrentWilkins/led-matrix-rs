@@ -1,0 +1,17 @@
+/target
+/docs
+/.venv
+
+.DS_Store
+
+# Media files — keep directory structure, ignore contents
+/images/*
+!/images/.gitkeep
+!/images/Lenna_(test_image).png
+/videos/*
+!/videos/.gitkeep
+!/videos/CREDITS.md
+!/videos/eyes_25/
+!/videos/eyes_25_32x32/
+/raw_video/*
+!/raw_video/.gitkeep

@@ -1,0 +1,35 @@
+[package]
+name = "led-matrix-rs"
+version = "0.1.0"
+edition = "2024"
+description = "HTTP API server for controlling RGB LED matrix panels on Raspberry Pi"
+license = "MIT"
+repository = "https://github.com/BrentWilkins/led-matrix-rs"
+
+[features]
+default = ["hardware"]
+hardware = ["dep:rpi-led-matrix"]
+
+[dependencies]
+ctrlc = "3"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+rpi-led-matrix = { version = "0.4.0", optional = true }
+
+# HTTP server
+axum = { version = "0.8", features = ["ws"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tower-http = { version = "0.6", features = ["cors", "trace"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+utoipa = { version = "5", features = ["axum_extras"] }
+utoipa-swagger-ui = { version = "9", features = ["axum"] }
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+[dev-dependencies]
+rstest = "0.25"
+pretty_assertions = "1"
+tempfile = "3"

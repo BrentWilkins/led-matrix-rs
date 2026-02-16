@@ -1,0 +1,16 @@
+[Unit]
+Description=LED Matrix HTTP Server
+After=network.target
+
+[Service]
+ExecStart=/home/brent/led-matrix-rs/target/release/led-matrix-rs --media-dir /home/brent/led-matrix-rs --port 8080
+WorkingDirectory=/home/brent/led-matrix-rs
+Restart=on-failure
+RestartSec=5
+User=root
+Environment="RUST_LOG=info"
+StandardOutput=journal
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target
