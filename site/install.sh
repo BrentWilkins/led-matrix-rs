@@ -85,7 +85,7 @@ done
 # Helper functions
 say() {
     if [ "$LED_MATRIX_QUIET" = "0" ]; then
-        printf 'install.sh: %s\n' "$1"
+        printf 'install.sh: %s\n' "$1" >&2
     fi
 }
 
