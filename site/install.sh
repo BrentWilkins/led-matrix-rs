@@ -442,7 +442,5 @@ main() {
     print_success "$_install_dir" "$_installed_systemd"
 }
 
-# Run main only if executed directly (not sourced)
-case "${0}" in
-*install.sh) main ;;
-esac
+# Run main
+main
