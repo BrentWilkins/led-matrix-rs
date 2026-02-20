@@ -34,4 +34,4 @@ jobs:
         with:
           key: ${{ matrix.target }}
       - run: cargo install cross --git https://github.com/cross-rs/cross
-      - run: cross check --target ${{ matrix.target }} --release
+      - run: cross build --target ${{ matrix.target }} --release
