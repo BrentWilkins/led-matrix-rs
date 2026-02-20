@@ -18,7 +18,6 @@ curl -fsSL https://brentwilkins.github.io/led-matrix-rs/install.sh | sh
 
 The installer auto-detects your Raspberry Pi architecture and downloads the correct binary:
 
-- **ARMv6**: Pi Zero, Zero W/WH, Model A+/B+
 - **ARMv7**: Pi Zero 2 W, Pi 2, Pi 3/4 (32-bit OS)
 - **AArch64**: Pi 3/4/5 (64-bit OS)
 
@@ -50,7 +49,7 @@ chmod +x led-matrix-rs
 sudo ./led-matrix-rs --media-dir /path/to/media --port 8080
 ```
 
-For Pi 4/5 (64-bit), use `led-matrix-rs-aarch64`. For original Pi Zero, use `led-matrix-rs-armv6`.
+For Pi 4/5 (64-bit), use `led-matrix-rs-aarch64`.
 
 ## Development
 
