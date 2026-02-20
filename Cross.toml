@@ -8,9 +8,9 @@ image = "ghcr.io/cross-rs/arm-unknown-linux-gnueabihf:main"
 
 [target.arm-unknown-linux-gnueabihf.env]
 passthrough = [
-    "CC=arm-linux-gnueabihf-gcc",
-    "CXX=arm-linux-gnueabihf-g++",
-    "AR=arm-linux-gnueabihf-ar",
+    "CC=arm-linux-gnueabi-gcc",
+    "CXX=arm-linux-gnueabi-g++",
+    "AR=arm-linux-gnueabi-ar",
 ]
 
 [target.armv7-unknown-linux-gnueabihf]
