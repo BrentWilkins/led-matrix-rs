@@ -286,18 +286,32 @@ install_binary() {
 # Install systemd service
 install_systemd_service() {
     _service_file="/etc/systemd/system/led-matrix.service"
+    _user_home=""
+    _actual_user=""
 
     say "Installing systemd service..."
 
-    # Create service file
-    cat >"$_service_file" <<'EOF'
+    # Detect the actual user (not root) and their home directory
+    if [ -n "${SUDO_USER:-}" ]; then
+        _actual_user="$SUDO_USER"
+        _user_home="$(eval echo ~"$SUDO_USER")"
+    else
+        _actual_user="$(whoami)"
+        _user_home="$HOME"
+    fi
+
+    say_verbose "Detected user: $_actual_user"
+    say_verbose "User home: $_user_home"
+
+    # Create service file with detected paths
+    cat >"$_service_file" <<EOF
 [Unit]
 Description=LED Matrix HTTP Server
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/led-matrix-rs --media-dir /home/pi/led-matrix --port 8080
-WorkingDirectory=/home/pi
+ExecStart=/usr/local/bin/led-matrix-rs --media-dir $_user_home/led-matrix --port 8080
+WorkingDirectory=$_user_home
 Restart=on-failure
 RestartSec=5
 User=root
@@ -313,6 +327,11 @@ EOF
     ensure systemctl daemon-reload
 
     say "Installed systemd service: $_service_file"
+
+    # Enable and start the service
+    say "Enabling and starting service..."
+    ensure systemctl enable led-matrix
+    ensure systemctl start led-matrix
 }
 
 # Print success message with next steps
@@ -327,22 +346,21 @@ print_success() {
     if [ "$_installed_systemd" = "yes" ]; then
         cat <<EOF
 Successfully installed ${APP_NAME} to ${_install_dir}/${APP_NAME}
-Installed systemd service: /etc/systemd/system/led-matrix.service
+Installed and started systemd service: /etc/systemd/system/led-matrix.service
+
+The LED matrix server is now running!
 
 Next steps:
-  1. Customize service (optional):
-     sudo nano /etc/systemd/system/led-matrix.service
-     # Edit --media-dir, --port, etc.
-
-  2. Enable and start the service:
-     sudo systemctl enable led-matrix
-     sudo systemctl start led-matrix
-
-  3. Check status:
+  1. Check status:
      sudo systemctl status led-matrix
 
-  4. View logs:
+  2. View logs:
      journalctl -u led-matrix -f
+
+  3. Customize service (optional):
+     sudo nano /etc/systemd/system/led-matrix.service
+     # Edit --media-dir, --port, etc., then:
+     sudo systemctl restart led-matrix
 
 EOF
     elif is_root; then
