@@ -1,0 +1,60 @@
+name: Deploy Pages
+
+on:
+  # Deploy only after CI workflow completes successfully
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches: [main]
+
+# Sets permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Wait for CI to pass before deploying
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    # Only deploy if CI succeeded
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Validate installer script before deploying
+      - name: Validate installer script
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+          # Install shfmt
+          wget -qO shfmt https://github.com/mvdan/sh/releases/download/v3.8.0/shfmt_v3.8.0_linux_amd64
+          chmod +x shfmt
+          sudo mv shfmt /usr/local/bin/
+
+          # Run checks
+          shellcheck site/install.sh
+          shfmt -d site/install.sh  # -d = diff mode (fails if not formatted)
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'site'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

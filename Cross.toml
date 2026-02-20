@@ -3,6 +3,16 @@
 # The rpi-led-matrix-sys crate builds C++ code via `make` without
 # setting CC/CXX, so we must pass the cross-compiler explicitly.
 
+[target.arm-unknown-linux-gnueabihf]
+image = "ghcr.io/cross-rs/arm-unknown-linux-gnueabihf:main"
+
+[target.arm-unknown-linux-gnueabihf.env]
+passthrough = [
+    "CC=arm-linux-gnueabihf-gcc",
+    "CXX=arm-linux-gnueabihf-g++",
+    "AR=arm-linux-gnueabihf-ar",
+]
+
 [target.armv7-unknown-linux-gnueabihf]
 image = "ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:main"
 

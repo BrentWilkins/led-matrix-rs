@@ -4,9 +4,41 @@ HTTP API server for controlling RGB LED matrix panels on Raspberry Pi. Any devic
 
 **Hardware**: Pi Zero 2 W + Adafruit RGB Matrix Bonnet (PID 3211) + 64x64 2mm pitch panel (PID 5362).
 
-## Quick Start
+## Quick Install
 
-Download a pre-built binary from [GitHub Releases](https://github.com/BrentWilkins/led-matrix-rs/releases):
+**One-liner install** (auto-detects architecture, sets up systemd service):
+
+```sh
+# System install with systemd service (recommended)
+curl -fsSL https://brentwilkins.github.io/led-matrix-rs/install.sh | sudo sh
+
+# Or user install (no sudo, installs to ~/.local/bin)
+curl -fsSL https://brentwilkins.github.io/led-matrix-rs/install.sh | sh
+```
+
+The installer auto-detects your Raspberry Pi architecture and downloads the correct binary:
+
+- **ARMv6**: Pi Zero, Zero W/WH, Model A+/B+
+- **ARMv7**: Pi Zero 2 W, Pi 2, Pi 3/4 (32-bit OS)
+- **AArch64**: Pi 3/4/5 (64-bit OS)
+
+**Options:**
+
+- `--version v0.1.1` - Install specific version
+- `--no-systemd` - Skip systemd service installation
+- `--help` - Show all options
+
+**After installation with systemd:**
+
+```sh
+sudo systemctl enable led-matrix
+sudo systemctl start led-matrix
+journalctl -u led-matrix -f  # View logs
+```
+
+## Manual Installation
+
+Alternatively, download a pre-built binary directly from [GitHub Releases](https://github.com/BrentWilkins/led-matrix-rs/releases):
 
 ```sh
 # On the Pi — download the armv7 binary (Pi Zero 2 W)
@@ -18,7 +50,7 @@ chmod +x led-matrix-rs
 sudo ./led-matrix-rs --media-dir /path/to/media --port 8080
 ```
 
-For Pi 4/5, use `led-matrix-rs-aarch64` instead.
+For Pi 4/5 (64-bit), use `led-matrix-rs-aarch64`. For original Pi Zero, use `led-matrix-rs-armv6`.
 
 ## Development
 
@@ -52,6 +84,23 @@ cargo test --no-default-features
 cargo clippy --no-default-features -- -D warnings
 cargo fmt --check
 ```
+
+### Pre-commit hooks
+
+Install pre-commit hooks to automatically format and lint before committing:
+
+```sh
+./scripts/setup-hooks.sh
+```
+
+This runs before each commit:
+
+- `cargo fmt` - Format Rust code
+- `cargo clippy` - Lint Rust code
+- `shellcheck` - Lint shell scripts
+- `shfmt` - Format shell scripts
+
+To skip hooks temporarily: `git commit --no-verify`
 
 ### Feature gating
 

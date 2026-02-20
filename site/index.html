@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Matrix RS - Installer</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #2c3e50;
+            --heading-secondary-color: #34495e;
+            --code-bg: #f4f4f4;
+            --code-text: #333333;
+            --link-color: #3498db;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffc107;
+            --warning-text: #856404;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --heading-color: #61afef;
+                --heading-secondary-color: #88c0d0;
+                --code-bg: #2d2d2d;
+                --code-text: #e0e0e0;
+                --link-color: #61afef;
+                --warning-bg: #3a3a1a;
+                --warning-border: #d4a500;
+                --warning-text: #ffd966;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            color: var(--heading-color);
+        }
+
+        h2 {
+            color: var(--heading-secondary-color);
+            margin-top: 30px;
+        }
+
+        h3 {
+            color: var(--heading-secondary-color);
+            margin-top: 20px;
+        }
+
+        code {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Monaco, monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .warning {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            color: var(--warning-text);
+            padding: 12px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin: 12px 0;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>LED Matrix RS Installer</h1>
+    <p>Rust LED matrix HTTP API server for Raspberry Pi with RGB Matrix HAT.</p>
+
+    <h2>Quick Install</h2>
+
+    <h3>User Install (no sudo)</h3>
+    <p>Installs to <code>~/.local/bin</code></p>
+    <pre><code>curl -fsSL https://brentwilkins.github.io/led-matrix-rs/install.sh | sh</code></pre>
+
+    <h3>System Install with systemd (recommended)</h3>
+    <p>Installs to <code>/usr/local/bin</code> and sets up systemd service</p>
+    <pre><code>curl -fsSL https://brentwilkins.github.io/led-matrix-rs/install.sh | sudo sh</code></pre>
+
+    <h3>System Install without systemd</h3>
+    <pre><code>curl -fsSL https://brentwilkins.github.io/led-matrix-rs/install.sh | sudo sh -s -- --no-systemd</code></pre>
+
+    <h2>Options</h2>
+    <ul>
+        <li><code>--version VERSION</code> - Install specific version</li>
+        <li><code>--no-systemd</code> - Skip systemd service installation</li>
+        <li><code>--verbose</code> - Verbose output</li>
+        <li><code>--help</code> - Show help message</li>
+    </ul>
+
+    <h2>Supported Hardware</h2>
+    <ul>
+        <li>Raspberry Pi Zero, Zero W/WH (ARMv6)</li>
+        <li>Raspberry Pi Zero 2 W (ARMv7)</li>
+        <li>Raspberry Pi 2/3/4 (ARMv7 or AArch64)</li>
+        <li>Adafruit RGB Matrix Bonnet (PID 3211)</li>
+        <li>64x64 2mm pitch RGB LED panels</li>
+    </ul>
+
+    <div class="warning">
+        <strong>Note:</strong> GPIO access requires sudo. Even user installations need <code>sudo led-matrix-rs</code> to run.
+    </div>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="https://github.com/BrentWilkins/led-matrix-rs">GitHub Repository</a></li>
+        <li><a href="https://github.com/BrentWilkins/led-matrix-rs/releases">Releases</a></li>
+        <li><a href="install.sh">Download install.sh</a></li>
+    </ul>
+</body>
+</html>

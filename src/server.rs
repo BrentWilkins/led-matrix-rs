@@ -83,7 +83,7 @@ pub struct AppState {
     ),
     info(
         title = "LED Matrix API",
-        version = "0.1.0",
+        version = env!("CARGO_PKG_VERSION"),
         description = "HTTP API for controlling an RGB LED matrix"
     )
 )]
@@ -159,7 +159,14 @@ pub struct BrightnessRequest {
 /// Build the axum router with all API endpoints.
 pub fn create_router(state: AppState) -> Router {
     Router::new()
-        .merge(SwaggerUi::new("/docs").url("/api-docs/openapi.json", ApiDoc::openapi()))
+        .merge(
+            SwaggerUi::new("/docs")
+                .url("/api-docs/openapi.json", ApiDoc::openapi())
+                .config(
+                    utoipa_swagger_ui::Config::new(["/api-docs/openapi.json"])
+                        .validator_url("none"),
+                ),
+        )
         .route("/api/v1/status", get(get_status))
         .route("/api/v1/images", get(get_images))
         .route("/api/v1/videos", get(get_videos))

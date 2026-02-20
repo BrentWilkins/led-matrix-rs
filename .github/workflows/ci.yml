@@ -24,6 +24,7 @@ jobs:
     strategy:
       matrix:
         target:
+          - arm-unknown-linux-gnueabihf       # Pi Zero/Zero W (ARMv6)
           - armv7-unknown-linux-gnueabihf    # Pi Zero 2 W (32-bit)
           - aarch64-unknown-linux-gnu         # Pi 4/5 (64-bit)
     steps:
