@@ -1,6 +1,6 @@
 [package]
 name = "led-matrix-rs"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "HTTP API server for controlling RGB LED matrix panels on Raspberry Pi"
 license = "MIT"
