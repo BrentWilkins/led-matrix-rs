@@ -162,7 +162,10 @@ pub fn create_router(state: AppState) -> Router {
         .merge(
             SwaggerUi::new("/docs")
                 .url("/api-docs/openapi.json", ApiDoc::openapi())
-                .config(utoipa_swagger_ui::Config::new(["/api-docs/openapi.json"]).validator_url("none")),
+                .config(
+                    utoipa_swagger_ui::Config::new(["/api-docs/openapi.json"])
+                        .validator_url("none"),
+                ),
         )
         .route("/api/v1/status", get(get_status))
         .route("/api/v1/images", get(get_images))

@@ -85,6 +85,23 @@ cargo clippy --no-default-features -- -D warnings
 cargo fmt --check
 ```
 
+### Pre-commit hooks
+
+Install pre-commit hooks to automatically format and lint before committing:
+
+```sh
+./scripts/setup-hooks.sh
+```
+
+This runs before each commit:
+
+- `cargo fmt` - Format Rust code
+- `cargo clippy` - Lint Rust code
+- `shellcheck` - Lint shell scripts
+- `shfmt` - Format shell scripts
+
+To skip hooks temporarily: `git commit --no-verify`
+
 ### Feature gating
 
 The `hardware` feature (enabled by default) pulls in the `rpi-led-matrix` crate. Disable it for testing or linting on machines without the ARM toolchain:
